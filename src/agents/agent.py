@@ -43,18 +43,6 @@ def filter_news(news: List[Dict], keywords: List[str]) -> List[Dict]:
     return filtered_news
 
 
-async def validate_person(state: Dict):
-    # Placeholder para validação de pessoa com datasets externos
-    # Simulando a validação
-    person_name = state["person_name"]
-    if person_name == "João Silva":  # Exemplificando
-        state["status"] = "Pessoa validada"
-        return True
-    else:
-        state["status"] = "Pessoa não validada"
-        return False
-
-
 async def score_news(state: AgentState):
     for noticia in state["filtered_news"]:
         noticia["nota"] = 9  # Atribui uma nota 9 por exemplo
@@ -83,7 +71,8 @@ async def run_agent():
     terms = ["crime", "corrupção", "lavagem de dinheiro"]
 
     # Etapa 1: Buscar notícias
-    news = await get_serper_news_async(person_name, terms)
+    news_response = await get_serper_news_async(person_name, terms)
+    news = news_response["news_results"]
 
     # Etapa 2: Filtrar notícias com palavras-chave
     filtered_news = filter_news(news, terms)

@@ -239,7 +239,7 @@ async def fetch_news(
 async def get_serper_news_async(
     person_name: str,
     terms: List[str],
-    limit: int = 100,
+    limit: int = 10,
     gl: str = "br",
     hl: str = "pt-br",
     porte_empresa: str = None,
@@ -283,4 +283,4 @@ async def get_serper_news_async(
         }
 
         # Retorna o JSON formatado
-        return json.dumps(result_json, indent=4)
+        return result_json
