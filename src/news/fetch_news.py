@@ -2,12 +2,15 @@ import aiohttp
 import os
 from typing import List, Dict
 import asyncio
+from dotenv import load_dotenv
 
 async def fetch_news(session: aiohttp.ClientSession, query: str, limit: int, gl: str, hl: str) -> List[Dict]:
     """Função auxiliar para fazer a requisição assíncrona"""
     url = "https://google.serper.dev/news"
+    
+    load_dotenv() 
     headers = {
-        'X-API-KEY': os.getenv('SERPER_API_KEY'),  # Certifique-se de que a chave está configurada no arquivo .env
+        'X-API-KEY': os.getenv('SERPER_API_KEY'),
         'Content-Type': 'application/json'
     }
 

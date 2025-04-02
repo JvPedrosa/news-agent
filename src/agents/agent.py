@@ -1,9 +1,10 @@
+import json
+import asyncio
 from langgraph.graph import StateGraph
 from typing import TypedDict, List, Dict
 from src.news.fetch_news import get_serper_news_async
 from src.validation.validate_person import validate_person_data
 from src.classification.scoring import score_news
-import asyncio
 
 # Definição de estado inicial do Agente
 class AgentState(TypedDict):
@@ -69,7 +70,7 @@ workflow.set_finish_point("score_news")
 # Função principal do agente
 async def run_agent():
     # Define os parâmetros de pesquisa
-    person_name = "João Victor Pedrosa Cândido"
+    person_name = "Jair Messias Bolsonaro"
     # Define os termos de pesquisa
     terms = ["crime", "corrupção", "lavagem de dinheiro"]
     
@@ -87,7 +88,10 @@ async def run_agent():
         # Etapa 4: Atribuir notas às notícias
         state = await score_news(state)
     
-    # Imprimir ou retornar o resultado final
-    print(state['filtered_news'])
+    # Salvar o resultado final em um arquivo JSON
+    with open("resultado.json", "w", encoding="utf-8") as json_file:
+        json.dump(state, json_file, ensure_ascii=False, indent=4)
+    
+    print("Resultado salvo em 'resultado.json'")
     
 asyncio.run(run_agent())
